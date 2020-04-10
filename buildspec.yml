@@ -1,0 +1,20 @@
+version: 0.2
+
+phases:
+  build:
+    commands:
+      - echo Entered the build phase...
+      - ./compile.sh  BOARD=orangepi-r1 BRANCH=current RELEASE=bionic BUILD_MINIMAL=no BUILD_DESKTOP=no KERNEL_ONLY=no KERNEL_CONFIGURE=no
+    finally:
+      - echo Build Completed
+
+artifacts:
+  files:
+    - output/images/Armbian_*.img
+  discard-paths: yes
+  secondary-artifacts:
+    artifact1:
+      files:
+        - output/images/Armbian_*.img
+      discard-paths: y
+
