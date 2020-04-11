@@ -734,7 +734,7 @@ repo-remove-old-packages() {
 wait_for_package_manager()
 {
 	# exit if package manager is running in the back
-	while true; do
+	while false; do
 		if [[ "$(fuser /var/lib/dpkg/lock 2>/dev/null; echo $?)" != 1 && "$(fuser /var/lib/dpkg/lock-frontend 2>/dev/null; echo $?)" != 1 ]]; then
 				display_alert "Package manager is running in the background." "Please wait! Retrying in 30 sec" "wrn"
 				sleep 30
@@ -842,8 +842,8 @@ prepare_host()
 	fi
 
 	grep -q i386 <(dpkg --print-foreign-architectures) || dpkg --add-architecture i386
-	if systemd-detect-virt -q -c; then
-		display_alert "Running in container" "$(systemd-detect-virt)" "info"
+	if true; then
+		display_alert "Running in container" "docker" "info"
 		# disable apt-cacher unless NO_APT_CACHER=no is not specified explicitly
 		if [[ $NO_APT_CACHER != no ]]; then
 			display_alert "apt-cacher is disabled in containers, set NO_APT_CACHER=no to override" "" "wrn"

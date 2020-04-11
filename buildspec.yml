@@ -1,10 +1,17 @@
 version: 0.2
 
 phases:
+  install:
+    commands:
+      - echo Entered the install phase...
+      - apt-get update -y
+      - apt-get install -y dialog
+
   build:
     commands:
       - echo Entered the build phase...
-      - ./compile.sh  BOARD=orangepi-r1 BRANCH=current RELEASE=bionic BUILD_MINIMAL=no BUILD_DESKTOP=no KERNEL_ONLY=no KERNEL_CONFIGURE=no
+      - cd ${CODEBUILD_SRC_DIR}
+      - ./compile.sh docker BOARD=orangepi-r1 BRANCH=current RELEASE=bionic BUILD_MINIMAL=no BUILD_DESKTOP=no KERNEL_ONLY=no KERNEL_CONFIGURE=no NO_APT_CACHER=yes CLEAN_LEVEL=cache
     finally:
       - echo Build Completed
 

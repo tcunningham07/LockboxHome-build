@@ -74,7 +74,7 @@ echo update_src >> $TMPFILE
 
 #do not update/checkout git with root privileges to messup files onwership.
 #due to in docker/VM, we can't su to a normal user, so do not update/checkout git.
-if [[ `systemd-detect-virt` == 'none' ]]; then
+if false; then
 	if [[ $EUID == 0 ]]; then
 		su `stat --format=%U $SRC/.git` -c "bash $TMPFILE"
 	else
@@ -85,13 +85,13 @@ fi
 rm $TMPFILE
 
 # Check for required packages for compiling
-if [[ -z "$(which dialog)" ]]; then
+if false; then
 	sudo apt update
 	sudo apt install -y dialog
 fi
 
 # Check for Vagrant
-if [[ "$1" == vagrant && -z "$(which vagrant)" ]]; then
+if false; then
 	display_alert "Vagrant not installed." "Installing"
 	sudo apt update
 	sudo apt install -y vagrant virtualbox
@@ -109,33 +109,6 @@ if [[ "$1" == docker-shell ]]; then
 	shift
 	SHELL_ONLY=yes
 	set -- "docker" "$@"
-fi
-
-# Install Docker if not there but wanted. We cover only Debian based distro install. Else, manual Docker install is needed
-if [[ "$1" == docker && -f /etc/debian_version && -z "$(which docker)" ]]; then
-
-	# add exception for Ubuntu Focal until Docker provides dedicated binary
-	codename=$(lsb_release -sc)
-	[[ $codename == focal ]] && codename="bionic"
-
-	display_alert "Docker not installed." "Installing" "Info"
-	echo "deb [arch=amd64] https://download.docker.com/linux/$(lsb_release -is | awk '{print tolower($0)}') ${codename} edge" > /etc/apt/sources.list.d/docker.list
-
-	# minimal set of utilities that are needed for prep
-	packages=("curl" "gnupg" "apt-transport-https")
-	for i in "${packages[@]}"
-	do
-	[[ ! $(which $i) ]] && install_packages+=$i" "
-	done
-	[[ -z $install_packages ]] && apt update;apt install -y -qq --no-install-recommends $install_packages
-
-	curl -fsSL "https://download.docker.com/linux/$(lsb_release -is | awk '{print tolower($0)}')/gpg" | apt-key add -qq - > /dev/null 2>&1
-	export DEBIAN_FRONTEND=noninteractive
-	apt update
-	apt install -y -qq --no-install-recommends docker-ce
-	display_alert "Add yourself to docker group to avoid root privileges" "" "wrn"
-	"$SRC/compile.sh" "$@"
-	exit $?
 fi
 
 # Create userpatches directory if not exists

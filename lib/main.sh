@@ -479,7 +479,7 @@ runtime=$(((end-start)/60))
 display_alert "Runtime" "$runtime min" "info"
 
 # Make it easy to repeat build by displaying build options used
-[ `systemd-detect-virt` == 'docker' ] && BUILD_CONFIG='docker'
+BUILD_CONFIG='docker'
 display_alert "Repeat Build Options" "./compile.sh ${BUILD_CONFIG} BOARD=${BOARD} BRANCH=${BRANCH} \
 $([[ -n $RELEASE ]] && echo "RELEASE=${RELEASE} ")\
 $([[ -n $BUILD_MINIMAL ]] && echo "BUILD_MINIMAL=${BUILD_MINIMAL} ")\

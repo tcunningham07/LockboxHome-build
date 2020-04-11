@@ -310,7 +310,7 @@ Version: $REPOSITORY_COMMIT
 Host OS: $(lsb_release -sc)
 Host arch: $(dpkg --print-architecture)
 Host system: $(uname -a)
-Virtualization type: $(systemd-detect-virt)
+Virtualization type: 'docker'
 
 ## Build script directories
 Build directory is located on:

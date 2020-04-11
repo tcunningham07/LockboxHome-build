@@ -703,7 +703,7 @@ create_image()
 		else
 			display_alert "Writing failed" "${version}.img" "err"
 		fi
-	elif [[ `systemd-detect-virt` == 'docker' && -n $CARD_DEVICE ]]; then
+	elif [[ -n $CARD_DEVICE ]]; then
 		# display warning when we want to write sd card under Docker
 		display_alert "Can't write to $CARD_DEVICE" "Enable docker privileged mode in config-docker.conf" "wrn"
 	fi
