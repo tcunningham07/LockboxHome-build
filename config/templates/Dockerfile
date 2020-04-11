@@ -1,10 +1,6 @@
 FROM ubuntu:18.04
-RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y gnupg gnupg1 gpgv1 --no-install-recommends
-RUN sh -c  "if [ x"" != x$http_proxy ]; then \
-			    apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --keyserver-options http-proxy=$http_proxy --recv-keys ED75B5A4483DA07C >/dev/null 2>&1; \
-		    else \
-			    apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys ED75B5A4483DA07C >/dev/null 2>&1; \
-		    fi"
+RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y parted gnupg gnupg1 gpgv1 --no-install-recommends
+RUN apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys ED75B5A4483DA07C >/dev/null 2>&1;
 RUN echo "deb http://repo.aptly.info/ nightly main" > /etc/apt/sources.list.d/aptly.list
 RUN dpkg --add-architecture i386
 RUN apt update && DEBIAN_FRONTEND=noninteractive apt -y upgrade && \

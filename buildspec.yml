@@ -11,7 +11,8 @@ phases:
     commands:
       - echo Entered the build phase...
       - cd ${CODEBUILD_SRC_DIR}
-      - ./compile.sh docker BOARD=orangepi-r1 BRANCH=current RELEASE=bionic BUILD_MINIMAL=no BUILD_DESKTOP=no KERNEL_ONLY=no KERNEL_CONFIGURE=no NO_APT_CACHER=yes CLEAN_LEVEL=cache
+      - ./compile.sh docker-shell BOARD=orangepi-r1 BRANCH=current RELEASE=bionic BUILD_MINIMAL=no BUILD_DESKTOP=no KERNEL_ONLY=no KERNEL_CONFIGURE=no NO_APT_CACHER=yes CLEAN_LEVEL=cache
+      - ./compile.sh BOARD=orangepi-r1 BRANCH=current RELEASE=bionic BUILD_MINIMAL=no BUILD_DESKTOP=no KERNEL_ONLY=no KERNEL_CONFIGURE=no NO_APT_CACHER=yes CLEAN_LEVEL=cache
     finally:
       - echo Build Completed
 

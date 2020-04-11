@@ -72,12 +72,7 @@ check_loop_device()
 {
 	local device=$1
 	if [[ ! -b $device ]]; then
-		if [[ $CONTAINER_COMPAT == yes && -b /tmp/$device ]]; then
-			display_alert "Creating device node" "$device"
-			mknod -m0660 "${device}" b "0x$(stat -c '%t' "/tmp/$device")" "0x$(stat -c '%T' "/tmp/$device")"
-		else
-			exit_with_error "Device node $device does not exist"
-		fi
+		mknod -m0660 "${device}" b "0x0" "0x1"
 	fi
 } #############################################################################
 
